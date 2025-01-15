@@ -34,7 +34,7 @@ addLayer("A", {
                 return player.A.points.min(10)
             },
              effectDisplay() {
-				return "nice!"
+				return "+" + upgradeEffect("A",11) + "to point base"
             }
 	},
     },
