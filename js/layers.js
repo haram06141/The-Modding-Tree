@@ -40,7 +40,7 @@ addLayer("A", {
 				return "+" + upgradeEffect("A",11) + "to point base"
             }
 	},
-        11: {
+        12: {
             title: "B",
             description: "alphabet boost Math gain",
             
