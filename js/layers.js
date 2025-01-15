@@ -31,7 +31,9 @@ addLayer("A", {
             
             cost: new Decimal("1"),
             effect(){
-                return player.A.points.min(10)
+		base = player.A.points
+		    if (base.gte(10)) base = base.mul(1000).pow(0.25).min(200)
+                return base
             },
              effectDisplay() {
 				return "+" + upgradeEffect("A",11) + "to point base"
