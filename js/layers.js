@@ -22,6 +22,22 @@ addLayer("A", {
     gainExp() { // Calculate the exponent on main currency from bonuses
         return new Decimal(1)
     },
+	 upgrades: {
+        rows: 5,
+        cols: 5,
+        11: {
+            title: "A",
+            description: "alphabet boost point gain base",
+            
+            cost: new Decimal("1"),
+            effect(){
+                return player.A.points.min(10)
+            },
+             effectDisplay() {
+				return "nice!"
+            }
+	},
+    },
     row: 0, // Row the layer is in on the tree (0 is the first row)
     layerShown(){return true}
 })
