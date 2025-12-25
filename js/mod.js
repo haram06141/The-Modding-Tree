@@ -41,7 +41,7 @@ function getPointGen() {
 	if(!canGenPoints())
 		return new Decimal(0)
 
-	let gain = player.points.add(1).mul(10).min(1e10)
+	let gain = player.points.add(1).mul(10)
 	        if (gain.gte(1e10)) gain=gain.log10().div(10).pow(0.95).mul(10).pow_base(10)
 	        if (gain.gte("1.8e308")) gain=gain.log10().div(308).pow(0.9).mul(308).pow_base(10).min("ee6")
 	return gain
