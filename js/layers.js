@@ -57,7 +57,7 @@ addLayer("lv", {
 				return upgradeEffect("lv",12) + "Eff Lv"
 			 }
 		},
-        12: {
+        13: {
             title: "3",
             description: "Eff lv boost Inf grow base",
             cost: new Decimal("100"),
