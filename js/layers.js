@@ -37,6 +37,7 @@ addLayer("lv", {
              effectDisplay() {
 				return upgradeEffect("lv",11) + "x Inf speed"
             }
+		},
         12: {
             title: "2",
             description: "Eff lv can pass 50",
