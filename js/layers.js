@@ -64,7 +64,7 @@ addLayer("lv", {
             effect(){
                 base = upgradeEffect("lv",12).add(100)
 				base = base.div(3).pow(base.pow(1/3))
-				    if(!hasUpgrade('lv',13)) base=base.pow(1)
+				    if(!hasUpgrade('lv',13)) base=base.pow(0)
 		        return base
             },
              effectDisplay() {
@@ -97,9 +97,6 @@ addLayer("Rk", {
         return new Decimal(1)
     },
     row: 0, // Row the layer is in on the tree (0 is the first row)
-    hotkeys: [
-        {key: "p", description: "P: Reset for prestige points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
-    ],
 	 upgrades: {
         rows: 5,
         cols: 5,
