@@ -32,7 +32,7 @@ addLayer("lv", {
             description: "Lv boost Inf Speed",
             cost: new Decimal("1"),
             effect(){
-                return upgradeEffect("lv",12).add(1).min(50).pow(0.5)
+                return upgradeEffect("lv",12).add(1).pow(0.5)
             },
              effectDisplay() {
 				return upgradeEffect("lv",11) + "x Inf speed"
@@ -41,9 +41,10 @@ addLayer("lv", {
         12: {
             title: "2",
             description: "Eff lv can pass 50",
-            cost: new Decimal("1"),
+            cost: new Decimal("50"),
             effect(){
                 base = player.lv.points
+				    if(!hasUpgrade('lv',12)) base=base.min(50)
 				    if(base.gte(50)) base=base.div(50).pow(2/3).mul(50)
 					if(base.gte(120)) base=base.div(120).pow(2/5).mul(120).min(600)
 					if(base.gte(600)) base=base.div(600).pow(0.25).mul(600)
@@ -52,6 +53,7 @@ addLayer("lv", {
              effectDisplay() {
 				return upgradeEffect("lv",12) + "Eff Lv"
 			 }
+		},
 	},
     layerShown(){return true}
 })
