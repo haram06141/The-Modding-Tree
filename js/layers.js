@@ -44,14 +44,31 @@ addLayer("lv", {
             cost: new Decimal("50"),
             effect(){
                 base = player.lv.points
+					if(hasUpgrade('lv',13)) base=base.add(100)
 				    if(!hasUpgrade('lv',12)) base=base.min(50)
+					if(hasUpgrade('Rk',12)) base=base.add(player.Rk.points)
 				    if(base.gte(50)) base=base.div(50).pow(2/3).mul(50)
 					if(base.gte(120)) base=base.div(120).pow(2/5).mul(120)
-					if(base.gte(600)) base=base.div(600).pow(0.25).mul(600).mim(10000)
+					if(base.gte(600)) base=base.div(600).pow(0.25).mul(600).min(10000)
+					if(hasUpgrade('lv',12)) base=base.add(50).min(player.lv.points)
 		        return base
             },
              effectDisplay() {
 				return upgradeEffect("lv",12) + "Eff Lv"
+			 }
+		},
+        12: {
+            title: "3",
+            description: "Eff lv boost Inf grow base",
+            cost: new Decimal("100"),
+            effect(){
+                base = upgradeEffect("lv",12).add(100)
+				base = base.div(3).pow(base.pow(1/3))
+				    if(!hasUpgrade('lv',13)) base=base.pow(1)
+		        return base
+            },
+             effectDisplay() {
+				return upgradeEffect("lv",13) + "xbase"
 			 }
 		},
 	},
@@ -94,12 +111,12 @@ addLayer("Rk", {
                 return upgradeEffect("Rk",12).add(1)
             },
              effectDisplay() {
-				return upgradeEffect("Rk,",11) + "x Inf speed"
+				return upgradeEffect("Rk",11) + "x Inf speed"
             }
 		},
         12: {
             title: "2",
-            description: "Eff Rk can pass 10",
+            description: "Eff Rk can pass 10,Rk add Lv amount",
             cost: new Decimal("10"),
             effect(){
                 base = player.Rk.points
@@ -107,6 +124,7 @@ addLayer("Rk", {
 				    if(base.gte(10)) base=base.div(10).pow(0.5).mul(10)
 					if(base.gte(120)) base=base.div(120).pow(0.3).mul(120)
 					if(base.gte(600)) base=base.div(600).pow(0.2).mul(600).min(10000)
+					if(hasUpgrade('Rk',12)) base=base.add(10).min(player.Rk.points)
 		        return base
             },
              effectDisplay() {
