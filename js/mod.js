@@ -38,8 +38,9 @@ function canGenPoints(){
 
 // Calculate points/sec!
 function getPointGen() {
-	let base = upgradeEffect("lv",11).pow_base(upgradeEffect("lv",11).mul(10))
-	let gain = player.points.add(1).mul(base)
+	let base = pow_base(upgradeEffect("lv",11).mul(10)).mul(upgradeEffect("Rk",11))
+	let baser = upgradeEffect("lv",11).mul(upgradeEffect("Rk",11)).pow_base(base)
+	let gain = player.points.add(1).mul(baser)
 	        if (gain.gte(1e10)) gain=gain.log10().div(10).pow(0.95).mul(10).pow_base(10)
 	        if (gain.gte("1.8e308")) gain=gain.log10().div(308).pow(0.9).mul(308).pow_base(10).min("ee6")
 	return gain
