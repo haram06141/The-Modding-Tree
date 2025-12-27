@@ -52,6 +52,7 @@ addLayer("lv", {
              effectDisplay() {
 				return upgradeEffect("lv",12) + "Eff Lv"
 			 }
+		},
 	},
     layerShown(){return true}
 })
