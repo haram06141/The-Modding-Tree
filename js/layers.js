@@ -51,6 +51,7 @@ addLayer("lv", {
 					if(base.gte(120)) base=base.div(120).pow(2/5).mul(120)
 					if(base.gte(600)) base=base.div(600).pow(0.25).mul(600).min(10000)
 					if(hasUpgrade('lv',12)) base=base.add(50).min(player.lv.points)
+					if(hasUpgrade('v',12)) base=base.add(upgradeEffect("v",12))
 		        return base
             },
              effectDisplay() {
@@ -69,6 +70,17 @@ addLayer("lv", {
             },
              effectDisplay() {
 				return upgradeEffect("lv",13) + "xbase"
+			 }
+		},
+        14: {
+            title: "4",
+            description: "Inf gain^1.025",
+            cost: new Decimal("44444"),
+            effect(){
+		        return true
+            },
+             effectDisplay() {
+				return "^1.025 Inf gain"
 			 }
 		},
 	},
@@ -96,14 +108,14 @@ addLayer("Rk", {
     gainExp() { // Calculate the exponent on main currency from bonuses
         return new Decimal(1)
     },
-    row: 0, // Row the layer is in on the tree (0 is the first row)
+    row: 1, // Row the layer is in on the tree (0 is the first row)
 	 upgrades: {
         rows: 5,
         cols: 5,
         11: {
             title: "1",
-            description: "Rk boost Inf Speed",
-            cost: new Decimal("1"),
+            description: "Rk boost Inf Speed,Inf gain^1.15",
+            cost: new Decimal("4"),
             effect(){
                 return upgradeEffect("Rk",12).add(1)
             },
@@ -126,6 +138,62 @@ addLayer("Rk", {
             },
              effectDisplay() {
 				return upgradeEffect("Rk",12) + "Eff Rk"
+			 }
+		},
+	},
+    layerShown(){return true}
+})
+addLayer("v", {
+    name: "Neutrino", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "ν", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: true,
+		points: new Decimal(0),
+    }},
+    color: "#4BDC13",
+    requires: new Decimal(10), // Can be a function that takes requirement increases into account
+    resource: "ν", // Name of prestige currency
+    baseResource: "Lv", // Name of resource prestige is based on
+    baseAmount() {return upgradeEffect("lv",12)}, // Get the current amount of baseResource
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 0.5, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = upgradeEffect("Rk",12).add(1).pow(0.5).mul(10)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+    row: 1, // Row the layer is in on the tree (0 is the first row)
+	 upgrades: {
+        rows: 5,
+        cols: 5,
+        11: {
+            title: "1",
+            description: "ν boost Inf Speed",
+            cost: new Decimal("1"),
+            effect(){
+                return player.v.points.pow(1/3).add(1)
+            },
+             effectDisplay() {
+				return upgradeEffect("v",11) + "x Inf speed"
+            }
+		},
+        12: {
+            title: "2",
+            description: "ν boost Eff lv",
+            cost: new Decimal("10"),
+            effect(){
+                base = player.v.points.pow(0.5).add(10)
+				    if(!hasUpgrade('v',12)) base=base.min(0)
+				    if(base.gte(50)) base=base.div(50).pow(0.5).mul(50)
+					if(base.gte(200)) base=base.div(200).pow(0.4).mul(200)
+					if(base.gte(100000)) base=base.div(100000).pow(0.25).mul(100000).min(1e7)
+		        return base
+            },
+             effectDisplay() {
+				return upgradeEffect("v",12) + "+Eff lv"
 			 }
 		},
 	},
