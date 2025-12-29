@@ -160,6 +160,7 @@ addLayer("v", {
     exponent: 0.5, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = upgradeEffect("Rk",12).add(1).pow(0.5).mul(10)
+		mult = mult.mul(upgradeEffect("Te",12))
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -194,6 +195,64 @@ addLayer("v", {
             },
              effectDisplay() {
 				return upgradeEffect("v",12) + "+Eff lv"
+			 }
+		},
+	},
+    layerShown(){return true}
+})
+addLayer("Te", {
+    name: "Tier", // This is optional, only used in a few places, If absent it just uses the layer id.
+    symbol: "Ti", // This appears on the layer's node. Default is the id with the first letter capitalized
+    position: 0, // Horizontal position within a row. By default it uses the layer id and sorts in alphabetical order
+    startData() { return {
+        unlocked: true,
+		points: new Decimal(0),
+    }},
+    color: "#4BDC13",
+    requires: new Decimal(3), // Can be a function that takes requirement increases into account
+    resource: "Tier", // Name of prestige currency
+    baseResource: "Rk", // Name of resource prestige is based on
+    baseAmount() {return upgradeEffect("Rk",12)}, // Get the current amount of baseResource
+    type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
+    exponent: 0.5, // Prestige currency exponent
+    gainMult() { // Calculate the multiplier for main currency from bonuses
+        mult = new Decimal(1)
+		    if(!hasUpgrade("Rk",12)) mult=mult.mul(0)
+        return mult
+    },
+    gainExp() { // Calculate the exponent on main currency from bonuses
+        return new Decimal(1)
+    },
+    row: 1, // Row the layer is in on the tree (0 is the first row)
+	 upgrades: {
+        rows: 5,
+        cols: 5,
+        11: {
+            title: "1",
+            description: "Tier boost Inf Speed,Inf gain^1.15",
+            cost: new Decimal("1"),
+            effect(){
+                return upgradeEffect("Te",12).pow(1.5).add(1)
+            },
+             effectDisplay() {
+				return upgradeEffect("Te",11) + "x Inf speed"
+            }
+		},
+        12: {
+            title: "2",
+            description: "Eff Tier can pass 5",
+            cost: new Decimal("10"),
+            effect(){
+                base = player.Te.points
+				    if(!hasUpgrade('Te',12)) base=base.min(5)
+				    if(base.gte(5)) base=base.div(5).pow(0.35).mul(5)
+					if(base.gte(30)) base=base.div(30).pow(0.25).mul(30)
+					if(base.gte(60) base=base.div(60).pow(0.15).mul(60).min(100)
+					if(hasUpgrade('Te',12)) base=base.add(5).min(player.Te.points)
+		        return base
+            },
+             effectDisplay() {
+				return upgradeEffect("Te",12) + "Eff Tier"
 			 }
 		},
 	},
